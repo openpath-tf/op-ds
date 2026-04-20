@@ -108,7 +108,7 @@ npm install
 npm run dev
 ```
 
-**http://localhost:5173** 에서 Foundation → Style → Components 순으로 탐색할 수 있습니다.
+**https://openpath-tf.github.io/op-ds/** 에서 Foundation → Style → Components 순으로 탐색할 수 있습니다.
 
 ---
 
