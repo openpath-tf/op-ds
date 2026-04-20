@@ -1,5 +1,5 @@
 # OpenPath Design System — Semantic Specification
-> Version: 0.1 | For AI context use only. Raw values (hex, px) are intentionally omitted.
+> Version: 0.2 | For AI context use only. Raw values (hex, px) are intentionally omitted.
 
 ---
 
@@ -61,22 +61,71 @@ Tier 1 (Primitive)  →  Tier 2 (Alias)  →  Tier 3 (Component)
 
 ## Component Token Rules
 
+Styling for each component maps to CSS custom properties via `variables.css`. The JS token references below reflect the semantic intent; in CSS Modules use the corresponding `--var-name` from `variables.css`.
+
 ### Button
-- Use `component.button.primaryBg` for filled background, not `alias.brand.primary` directly
-- Hover: `component.button.primaryHover` (via onMouseEnter/Leave state — never CSS pseudo-selectors in inline styles)
-- Secondary border: `component.button.secondaryBorder`
+- Background (filled): `component.button.primaryBg` → `--btn-primary-bg`
+- Hover: `component.button.primaryHover` → `--btn-primary-hover`
+- Pressed: `component.button.primaryPressed` → `--btn-primary-pressed`
+- Outlined border: `component.button.secondaryBorder` → `--color-brand-primary`
+- Elevation: none (buttons are flat)
 
 ### Input
-- Default border: `component.input.border`
-- Focus ring: `component.input.focusBorder`
-- Error ring: `component.input.errorBorder`
-- Disabled background: `component.input.disabledBg`
+- Default border: `component.input.border` → `--input-border`
+- Focus ring: `component.input.focusBorder` → `--input-focus-border`
+- Error ring: `component.input.errorBorder` → `--input-error-border`
+- Disabled background: `component.input.disabledBg` → `--input-disabled-bg`
+- Elevation: none
+
+### Modal
+- Background: `alias.surface.base` → `--color-surface-base`
+- Backdrop: `alias.surface.overlay` → `--color-surface-overlay`
+- Elevation: `elevation[4]` → `--elevation-4`
+- Border-radius: `shape.xl` → `--shape-xl`
+
+### Card
+- elevated: `alias.surface.base` + `elevation[2]` → `--elevation-2`
+- outlined: `alias.surface.base` + `alias.border.default` (1px border)
+- filled: `alias.surface.subtle`, no shadow
+- Border-radius: `shape.lg` → `--shape-lg`
+
+### AppBar
+- Background: `alias.surface.base`
+- Default shadow: `elevation[1]` → `--elevation-1`
+- Elevated shadow: `elevation[2]` → `--elevation-2`
+- Height: fixed 56px
+
+### TabBar
+- Active indicator: `alias.brand.primary` (2px bottom border)
+- Active text: `alias.brand.primary`, weight 600
+- Inactive text: `alias.text.secondary`, weight 400
+- Elevation: none (sits on surface)
+
+### FAB
+- Background: `alias.brand.primary`
+- Hover: `alias.brand.hover`
+- Elevation: `elevation[3]` → `--elevation-3` (resting), `elevation[4]` on hover
+- sm → `shape.md`, md → `shape.lg`, lg → `shape.xl`, extended → `shape.full`
+
+### Snackbar
+- default: `alias.surface.inverse` background
+- success/error/info: corresponding `alias.feedback.*`
+- Text: `alias.text.inverse`
+- Elevation: `elevation[3]` → `--elevation-3`
+- Border-radius: `shape.md` → `--shape-md`
+
+### List / ListItem
+- Container: `alias.surface.base`, `alias.border.default` (1px border), `shape.md`
+- Divider: `alias.border.default` (1px bottom border on each item)
+- Hover (clickable): `alias.surface.subtle`
+- Elevation: none
 
 ---
 
 ## Typography Scale
 
 Use `typography.scale.<name>` — each entry has `.size`, `.weight`, `.lineHeight`.
+`overline` also has `.letterSpacing` and `.textTransform: 'uppercase'` — apply both when using it.
 
 | Name | Use case | When NOT to use |
 |---|---|---|
@@ -88,7 +137,7 @@ Use `typography.scale.<name>` — each entry has `.size`, `.weight`, `.lineHeigh
 | `body2` | Secondary content, descriptions | Headings |
 | `label` | Button text, form labels, tab items | Long-form reading content |
 | `caption` | Helper text, timestamps, metadata | Primary content |
-| `overline` | Section headers above lists (uppercase, tracked) | Paragraph text |
+| `overline` | Section headers above lists — apply `textTransform: uppercase` and `letterSpacing` | Paragraph text |
 
 Font family: `typography.fontFamily.sans` (all UI), `typography.fontFamily.mono` (code, token values only)
 
@@ -96,7 +145,7 @@ Font family: `typography.fontFamily.sans` (all UI), `typography.fontFamily.mono`
 
 ## Spacing Scale
 
-`spacing[n]` — 4px base grid.
+`spacing[n]` — 4px base grid. Returns a CSS string (e.g. `spacing[4]` = `'16px'`).
 
 | Key | Value | Common use |
 |---|---|---|
@@ -104,6 +153,7 @@ Font family: `typography.fontFamily.sans` (all UI), `typography.fontFamily.mono`
 | `spacing[2]` | 8px | Chip/badge padding, tight gaps |
 | `spacing[3]` | 12px | Small component inner padding |
 | `spacing[4]` | 16px | Default padding, form field gaps |
+| `spacing[5]` | 20px | Medium padding, compact card sections |
 | `spacing[6]` | 24px | Card padding, comfortable gaps |
 | `spacing[8]` | 32px | Section separation |
 | `spacing[10]` | 40px | Page-level vertical rhythm |
@@ -121,10 +171,10 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 | `shape.none` | 0px | Dividers, full-bleed elements |
 | `shape.xs` | 4px | Badges, tooltips |
 | `shape.sm` | 8px | Inputs, small cards |
-| `shape.md` | 12px | Modals, menus |
-| `shape.lg` | 16px | Cards, drawers |
-| `shape.xl` | 28px | Bottom sheets, large modals |
-| `shape.full` | 9999px | Buttons (pill), Chips, FAB |
+| `shape.md` | 12px | Modals, menus, Snackbar |
+| `shape.lg` | 16px | Cards, drawers, FAB (md) |
+| `shape.xl` | 28px | Bottom sheets, large modals, FAB (lg) |
+| `shape.full` | 9999px | Buttons (pill), Chips, FAB (extended) |
 
 ---
 
@@ -132,13 +182,13 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 
 `elevation[0–5]` — box-shadow depth. Use the lowest level that achieves necessary separation.
 
-| Level | Use |
+| Level | Component mapping |
 |---|---|
-| `elevation[0]` | Flat — no separation needed |
+| `elevation[0]` | Flat surfaces — no separation needed |
 | `elevation[1]` | AppBar (default) |
-| `elevation[2]` | Cards |
-| `elevation[3]` | Snackbar, FAB |
-| `elevation[4]` | Modal, Drawer |
+| `elevation[2]` | Card (elevated variant), AppBar (elevated prop) |
+| `elevation[3]` | Snackbar, FAB (resting) |
+| `elevation[4]` | Modal, Drawer, FAB (hover) |
 | `elevation[5]` | Reserved for urgent overlays |
 
 ---
@@ -173,16 +223,9 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 
 **Examples**
 ```jsx
-// Primary action
 <Button variant="filled" onClick={handleSubmit}>저장하기</Button>
-
-// Destructive secondary
 <Button variant="outlined" onClick={handleCancel}>취소</Button>
-
-// With icon
 <Button variant="filled" leftIcon="＋">항목 추가</Button>
-
-// Full width form submit
 <Button variant="filled" fullWidth>로그인</Button>
 ```
 
@@ -204,18 +247,13 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 
 **When NOT to use**
 - Do not omit `label` — always provide one for accessibility
-- Do not use `helperText` and `error` simultaneously — `error` takes visual priority
+- Do not pass both `helperText` and `error` — `error` takes visual priority and `helperText` is hidden
 - Do not use for multi-line text — use a `textarea` instead
 
 **Examples**
 ```jsx
-// Basic
 <Input label="이름" placeholder="홍길동" value={name} onChange={e => setName(e.target.value)} />
-
-// With validation
 <Input label="이메일" error="올바른 이메일 형식이 아닙니다" value={email} onChange={e => setEmail(e.target.value)} />
-
-// With guidance
 <Input label="비밀번호" type="password" helperText="8자 이상, 특수문자 포함" />
 ```
 
@@ -241,7 +279,6 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 
 **Examples**
 ```jsx
-// Destructive confirmation
 <Modal
   open={isOpen}
   title="정말 삭제하시겠어요?"
@@ -267,15 +304,12 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 | `disabled` | boolean | `false` | — |
 
 **When NOT to use**
-- Do not use chips as primary navigation — use Tab or Nav
+- Do not use chips as primary navigation — use TabBar instead
 - Do not use `onClose` and `onClick` for conflicting actions on the same chip
 
 **Examples**
 ```jsx
-// Filter chip (toggle)
 <Chips label="React" selected={selected} onClick={() => toggle('React')} />
-
-// Input chip (removable tag)
 <Chips label="디자인시스템" selected onClose={() => removeTag('디자인시스템')} />
 ```
 
@@ -287,13 +321,13 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 | Prop | Type | Default | Valid values |
 |---|---|---|---|
 | `variant` | string | `'elevated'` | `'elevated'` `'outlined'` `'filled'` |
-| `padding` | string | `spacing[6]` | Any `spacing[n]` value |
+| `padding` | string | `'24px'` | Any CSS string — use `spacing[n]` values (e.g. `spacing[4]` = `'16px'`) |
 | `style` | object | — | Additional inline styles |
 
 **When to use each variant**
-- `elevated` — Standalone content cards that need to float above the page
-- `outlined` — Form sections, grouped inputs, structured data panels
-- `filled` — Subtle background grouping, secondary content blocks
+- `elevated` — Standalone content cards (`elevation[2]` shadow)
+- `outlined` — Form sections, grouped inputs, structured data panels (1px border, no shadow)
+- `filled` — Subtle background grouping, secondary content blocks (no border, no shadow)
 
 **When NOT to use**
 - Do not nest `elevated` cards — use `outlined` or `filled` for inner groupings
@@ -301,14 +335,13 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 
 **Examples**
 ```jsx
-// Content card
 <Card variant="elevated">
   <h3>제목</h3>
   <p>내용</p>
   <Button size="sm" variant="outlined">자세히</Button>
 </Card>
 
-// Form section
+// compact form section
 <Card variant="outlined" padding={spacing[5]}>
   <Input label="이름" />
   <Input label="이메일" />
@@ -323,9 +356,9 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 | Prop | Type | Default | Valid values |
 |---|---|---|---|
 | `title` | string | — | — |
-| `leading` | ReactNode | — | Back button, menu icon |
-| `trailing` | ReactNode | — | Icon buttons, actions |
-| `elevated` | boolean | `false` | — |
+| `leading` | ReactNode | — | Back icon, menu icon, or any element |
+| `trailing` | ReactNode | — | Icon buttons, action group |
+| `elevated` | boolean | `false` | Switches from `elevation[1]` to `elevation[2]` |
 
 **When NOT to use**
 - Do not put more than 2–3 trailing actions — use a menu overflow instead
@@ -333,13 +366,18 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 
 **Examples**
 ```jsx
+// String shorthand (acceptable for prototyping)
 <AppBar title="설정" leading="←" trailing={<>⋮</>} />
-<AppBar title="홈" elevated />
+
+// ReactNode (recommended for production)
+<AppBar title="홈" leading={<BackButton />} trailing={<IconButton icon="search" />} elevated />
 ```
 
 ---
 
 ### TabBar
+
+**Import:** `import { TabBar } from '../../components/Tab'`
 
 **Props**
 | Prop | Type | Default | Valid values |
@@ -350,8 +388,7 @@ Do not use arbitrary px values. All spacing must reference `spacing[n]`.
 
 **When NOT to use**
 - Do not use more than 5 tabs — consider a dropdown or navigation drawer
-- Do not use tabs to navigate between completely unrelated sections of an app
-- Do not use tabs for sequential steps — use a stepper pattern instead
+- Do not use for sequential steps — use a stepper pattern instead
 
 **Examples**
 ```jsx
@@ -374,14 +411,11 @@ const [tab, setTab] = useState(0);
 **When NOT to use**
 - Do not use more than one FAB per screen
 - Do not use FAB for destructive actions
-- Do not use `sm` FAB as the primary action — it lacks sufficient touch target affordance
+- Do not use `sm` FAB as the primary action — touch target is too small
 
 **Examples**
 ```jsx
-// Standard
 <FAB icon="＋" size="md" onClick={handleCreate} />
-
-// Extended with label
 <FAB icon="✏" label="작성하기" size="extended" onClick={handleWrite} />
 ```
 
@@ -395,24 +429,27 @@ const [tab, setTab] = useState(0);
 | `open` | boolean | — | — |
 | `message` | string | — | — |
 | `type` | string | `'default'` | `'default'` `'success'` `'error'` `'info'` |
-| `action` | `{ label, onClick }` | — | Single optional action |
-| `onClose` | function | — | — |
-| `duration` | number | `3000` | ms; set `null` to disable auto-close |
+| `action` | `{ label: string, onClick: function }` | — | Single optional action |
+| `onClose` | function | — | Called on auto-dismiss or action |
+| `duration` | number \| null | `3000` | ms — pass `null` to disable auto-close |
+
+**`duration: null` behaviour:** auto-close timer is disabled. The snackbar stays open until `onClose` is triggered externally (e.g. via `action.onClick`). When using `duration={null}`, always provide an `action` — otherwise the user has no way to dismiss it.
 
 **When NOT to use**
 - Do not stack multiple Snackbars — show one at a time
-- Do not use Snackbar for critical errors that require user action — use Modal instead
-- Do not use Snackbar for content that requires reading more than ~5 seconds
+- Do not use for critical errors requiring user action — use Modal instead
+- Do not use for content that takes more than ~5 seconds to read
 
 **Examples**
 ```jsx
 // Auto-dismiss
 <Snackbar open={saved} message="저장되었습니다" type="success" onClose={() => setSaved(false)} />
 
-// With undo action
+// Persistent with undo
 <Snackbar
   open={deleted}
   message="항목이 삭제되었습니다"
+  duration={null}
   action={{ label: '실행 취소', onClick: handleUndo }}
   onClose={() => setDeleted(false)}
 />
@@ -435,13 +472,13 @@ const [tab, setTab] = useState(0);
 | `subtitle` | string | — | — |
 | `leading` | ReactNode | — | Icon, avatar |
 | `trailing` | ReactNode | — | Icon, badge, metadata |
-| `onClick` | function | — | Makes item interactive |
-| `divider` | boolean | `true` | — |
+| `onClick` | function | — | Makes item interactive (adds hover state) |
+| `divider` | boolean | `true` | Set `false` on the last item |
 
 **When NOT to use**
-- Do not use List for fewer than 2 items — use individual components instead
-- Do not put complex interactive controls (inputs, buttons) inside ListItem — create a custom layout
-- Set `divider={false}` on the last item to avoid a double border at the list bottom
+- Do not use List for fewer than 2 items
+- Do not put complex interactive controls (inputs, buttons) inside ListItem
+- Always set `divider={false}` on the last ListItem to avoid a double border
 
 **Examples**
 ```jsx

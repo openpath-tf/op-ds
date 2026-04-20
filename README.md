@@ -97,7 +97,7 @@ AI가 `LLMs.txt`를 한 번 읽으면 이후 컴포넌트 생성·감사·페이
 
 ## 컴포넌트
 
-Button · Input · Modal · Chips · Card · AppBar · Tab · FAB · Snackbar · List
+Button · Input · Modal · Chips · Card · AppBar · TabBar · FAB · Snackbar · List
 
 ---
 
