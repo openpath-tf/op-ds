@@ -1,0 +1,17 @@
+.card {
+  border-radius: var(--shape-lg);
+}
+
+.elevated {
+  background: var(--color-surface-base);
+  box-shadow: var(--elevation-2);
+}
+
+.outlined {
+  background: var(--color-surface-base);
+  border: 1px solid var(--color-border-default);
+}
+
+.filled {
+  background: var(--color-surface-subtle);
+}

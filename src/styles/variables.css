@@ -1,0 +1,75 @@
+:root {
+  /* Brand */
+  --color-brand-primary:  #28D7D2;
+  --color-brand-hover:    #1BB8B3;
+  --color-brand-pressed:  #0F9490;
+  --color-brand-light:    #F3FCFC;
+
+  /* Text */
+  --color-text-primary:   #212529;
+  --color-text-secondary: #6C757D;
+  --color-text-disabled:  #CED4DA;
+  --color-text-inverse:   #FFFFFF;
+
+  /* Surface */
+  --color-surface-base:    #FFFFFF;
+  --color-surface-subtle:  #F8F9FA;
+  --color-surface-inverse: #343A40;
+  --color-surface-overlay: rgba(0, 0, 0, 0.4);
+
+  /* Border */
+  --color-border-default: #E9ECEF;
+  --color-border-focus:   #28D7D2;
+  --color-border-error:   #F5365C;
+
+  /* Feedback */
+  --color-feedback-success: #2DCE89;
+  --color-feedback-warning: #FB6340;
+  --color-feedback-error:   #F5365C;
+  --color-feedback-info:    #11CDEF;
+
+  /* Component — Button */
+  --btn-primary-bg:      var(--color-brand-primary);
+  --btn-primary-hover:   var(--color-brand-hover);
+  --btn-primary-pressed: var(--color-brand-pressed);
+
+  /* Component — Input */
+  --input-border:        var(--color-border-default);
+  --input-focus-border:  var(--color-border-focus);
+  --input-error-border:  var(--color-border-error);
+  --input-disabled-bg:   #F1F3F5;
+
+  /* Spacing */
+  --spacing-1:  4px;
+  --spacing-2:  8px;
+  --spacing-3:  12px;
+  --spacing-4:  16px;
+  --spacing-5:  20px;
+  --spacing-6:  24px;
+  --spacing-7:  28px;
+  --spacing-8:  32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+
+  /* Shape */
+  --shape-none: 0px;
+  --shape-xs:   4px;
+  --shape-sm:   8px;
+  --shape-md:   12px;
+  --shape-lg:   16px;
+  --shape-xl:   28px;
+  --shape-full: 9999px;
+
+  /* Elevation */
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --elevation-2: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --elevation-3: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --elevation-4: 0 8px 24px rgba(0, 0, 0, 0.16);
+  --elevation-5: 0 16px 40px rgba(0, 0, 0, 0.2);
+
+  /* Typography */
+  --font-sans: 'Pretendard', 'Inter', -apple-system, sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', monospace;
+}

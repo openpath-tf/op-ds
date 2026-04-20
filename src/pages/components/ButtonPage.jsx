@@ -1,18 +1,18 @@
 import { Button } from '../../components/Button';
-import { alias, spacing, typography } from '../../tokens';
+import s from '../showcase.module.css';
 
 function Row({ label, children }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3], paddingBottom: spacing[6], borderBottom: `1px solid ${alias.border.default}` }}>
-      <span style={{ fontSize: typography.scale.overline.size, fontWeight: 600, letterSpacing: typography.scale.overline.letterSpacing, textTransform: 'uppercase', color: alias.text.secondary, fontFamily: typography.fontFamily.sans }}>{label}</span>
-      <div style={{ display: 'flex', gap: spacing[3], flexWrap: 'wrap', alignItems: 'center' }}>{children}</div>
+    <div className={s.row}>
+      <span className={s.rowLabel}>{label}</span>
+      <div className={s.rowContent}>{children}</div>
     </div>
   );
 }
 
 export default function ButtonPage() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[6] }}>
+    <div className={s.page}>
       <Row label="Variant">
         <Button variant="filled">Filled</Button>
         <Button variant="outlined">Outlined</Button>

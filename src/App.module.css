@@ -1,0 +1,83 @@
+.app { display: flex; min-height: 100vh; font-family: var(--font-sans); }
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--color-surface-base);
+  border-right: 1px solid var(--color-border-default);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.logoArea {
+  padding: var(--spacing-6) var(--spacing-5) var(--spacing-4);
+}
+
+.logoName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-brand-primary);
+}
+
+.logoVersion {
+  font-size: 0.75rem;
+  color: var(--color-text-disabled);
+  margin-top: var(--spacing-1);
+}
+
+.nav { flex: 1; padding: 0 var(--spacing-3) var(--spacing-6); }
+
+.navGroup { margin-bottom: var(--spacing-5); }
+
+.navGroupLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-disabled);
+  padding: var(--spacing-2) var(--spacing-3);
+  margin-bottom: var(--spacing-1);
+}
+
+.navItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--shape-sm);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 400;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all 0.1s;
+  margin-bottom: var(--spacing-1);
+}
+
+.navItem:hover { background: var(--color-surface-subtle); color: var(--color-text-primary); }
+
+.navItemActive {
+  background: var(--color-brand-light);
+  color: var(--color-brand-pressed);
+  font-weight: 600;
+}
+
+.main {
+  flex: 1;
+  padding: var(--spacing-10);
+  max-width: 900px;
+  overflow-y: auto;
+}
+
+.pageTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-8);
+}

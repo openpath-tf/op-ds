@@ -1,18 +1,18 @@
 import { AppBar } from '../../components/AppBar';
-import { alias, spacing, typography } from '../../tokens';
+import s from '../showcase.module.css';
 
 function Row({ label, children }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3], paddingBottom: spacing[6], borderBottom: `1px solid ${alias.border.default}` }}>
-      <span style={{ fontSize: typography.scale.overline.size, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: alias.text.secondary, fontFamily: typography.fontFamily.sans }}>{label}</span>
-      <div style={{ border: `1px solid ${alias.border.default}`, borderRadius: 8, overflow: 'hidden' }}>{children}</div>
+    <div className={s.row}>
+      <span className={s.rowLabel}>{label}</span>
+      <div className={s.bordered}>{children}</div>
     </div>
   );
 }
 
 export default function AppBarPage() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[6] }}>
+    <div className={s.page}>
       <Row label="Default">
         <AppBar title="OpenPath" leading="←" trailing={<>⋮</>} />
       </Row>

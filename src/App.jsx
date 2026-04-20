@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './styles/global.css';
-import { alias, spacing, typography } from './tokens';
+import styles from './App.module.css';
 
 import ColorPage       from './pages/style/ColorPage';
 import TypographyPage  from './pages/style/TypographyPage';
@@ -23,32 +23,32 @@ const nav = [
   {
     section: 'Foundation',
     items: [
-      { id: 'principles', label: 'Principles',    Page: PrinciplesPage },
-      { id: 'token',      label: 'Design Token',  Page: TokenPage },
+      { id: 'principles', label: 'Principles',       Page: PrinciplesPage },
+      { id: 'token',      label: 'Design Token',     Page: TokenPage },
     ],
   },
   {
     section: 'Style',
     items: [
-      { id: 'color',      label: 'Color',       Page: ColorPage },
-      { id: 'typography', label: 'Typography',  Page: TypographyPage },
-      { id: 'spacing',    label: 'Spacing',     Page: SpacingPage },
-      { id: 'shape',      label: 'Shape & Elevation', Page: ShapePage },
+      { id: 'color',      label: 'Color',            Page: ColorPage },
+      { id: 'typography', label: 'Typography',       Page: TypographyPage },
+      { id: 'spacing',    label: 'Spacing',          Page: SpacingPage },
+      { id: 'shape',      label: 'Shape & Elevation',Page: ShapePage },
     ],
   },
   {
     section: 'Components',
     items: [
-      { id: 'button',  label: 'Button',  Page: ButtonPage },
-      { id: 'input',   label: 'Input',   Page: InputPage },
-      { id: 'modal',   label: 'Modal',   Page: ModalPage },
-      { id: 'chips',   label: 'Chips',   Page: ChipsPage },
-      { id: 'card',    label: 'Card',    Page: CardPage },
-      { id: 'appbar',  label: 'App Bar', Page: AppBarPage },
-      { id: 'tab',     label: 'Tab',     Page: TabPage },
-      { id: 'fab',     label: 'FAB',     Page: FABPage },
-      { id: 'snackbar',label: 'Snackbar',Page: SnackbarPage },
-      { id: 'list',    label: 'List',    Page: ListPage },
+      { id: 'button',   label: 'Button',   Page: ButtonPage },
+      { id: 'input',    label: 'Input',    Page: InputPage },
+      { id: 'modal',    label: 'Modal',    Page: ModalPage },
+      { id: 'chips',    label: 'Chips',    Page: ChipsPage },
+      { id: 'card',     label: 'Card',     Page: CardPage },
+      { id: 'appbar',   label: 'App Bar',  Page: AppBarPage },
+      { id: 'tab',      label: 'Tab',      Page: TabPage },
+      { id: 'fab',      label: 'FAB',      Page: FABPage },
+      { id: 'snackbar', label: 'Snackbar', Page: SnackbarPage },
+      { id: 'list',     label: 'List',     Page: ListPage },
     ],
   },
 ];
@@ -60,59 +60,21 @@ export default function App() {
   const active = allItems.find(i => i.id === activeId);
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', fontFamily: typography.fontFamily.sans }}>
-      {/* Sidebar */}
-      <aside style={{
-        width: 240,
-        flexShrink: 0,
-        background: alias.surface.base,
-        borderRight: `1px solid ${alias.border.default}`,
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'sticky',
-        top: 0,
-        height: '100vh',
-        overflowY: 'auto',
-      }}>
-        <div style={{ padding: `${spacing[6]} ${spacing[5]} ${spacing[4]}` }}>
-          <div style={{ fontSize: typography.scale.heading3.size, fontWeight: 700, color: alias.brand.primary }}>OpenPath</div>
-          <div style={{ fontSize: typography.scale.caption.size, color: alias.text.disabled, marginTop: spacing[1] }}>Design System v0.1</div>
+    <div className={styles.app}>
+      <aside className={styles.sidebar}>
+        <div className={styles.logoArea}>
+          <div className={styles.logoName}>OpenPath</div>
+          <div className={styles.logoVersion}>Design System v0.1</div>
         </div>
-
-        <nav style={{ flex: 1, padding: `0 ${spacing[3]} ${spacing[6]}` }}>
+        <nav className={styles.nav}>
           {nav.map(group => (
-            <div key={group.section} style={{ marginBottom: spacing[5] }}>
-              <div style={{
-                fontSize: typography.scale.overline.size,
-                fontWeight: 600,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: alias.text.disabled,
-                padding: `${spacing[2]} ${spacing[3]}`,
-                marginBottom: spacing[1],
-              }}>
-                {group.section}
-              </div>
+            <div key={group.section} className={styles.navGroup}>
+              <div className={styles.navGroupLabel}>{group.section}</div>
               {group.items.map(item => (
                 <button
                   key={item.id}
+                  className={`${styles.navItem} ${activeId === item.id ? styles.navItemActive : ''}`}
                   onClick={() => setActiveId(item.id)}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: `${spacing[2]} ${spacing[3]}`,
-                    borderRadius: 8,
-                    border: 'none',
-                    background: activeId === item.id ? alias.brand.light : 'transparent',
-                    color: activeId === item.id ? alias.brand.pressed : alias.text.secondary,
-                    fontWeight: activeId === item.id ? 600 : 400,
-                    fontSize: typography.scale.body2.size,
-                    cursor: 'pointer',
-                    fontFamily: typography.fontFamily.sans,
-                    transition: 'all 0.1s',
-                    marginBottom: spacing[1],
-                  }}
                 >
                   {item.label}
                 </button>
@@ -122,16 +84,8 @@ export default function App() {
         </nav>
       </aside>
 
-      {/* Content */}
-      <main style={{ flex: 1, padding: spacing[10], maxWidth: 900, overflowY: 'auto' }}>
-        <h1 style={{
-          fontSize: typography.scale.heading1.size,
-          fontWeight: typography.scale.heading1.weight,
-          color: alias.text.primary,
-          marginBottom: spacing[8],
-        }}>
-          {active?.label}
-        </h1>
+      <main className={styles.main}>
+        <h1 className={styles.pageTitle}>{active?.label}</h1>
         {active && <active.Page />}
       </main>
     </div>

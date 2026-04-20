@@ -1,0 +1,36 @@
+.snackbar {
+  position: fixed;
+  bottom: var(--spacing-8);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--spacing-3) var(--spacing-5);
+  border-radius: var(--shape-md);
+  box-shadow: var(--elevation-3);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  min-width: 280px;
+  max-width: 480px;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  z-index: 1100;
+  color: var(--color-text-inverse);
+}
+
+.default { background: var(--color-surface-inverse); }
+.success  { background: var(--color-feedback-success); }
+.error    { background: var(--color-feedback-error); }
+.info     { background: var(--color-brand-primary); }
+
+.message { flex: 1; }
+
+.action {
+  background: transparent;
+  border: none;
+  color: var(--color-brand-light);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+.action:hover { opacity: 0.8; }

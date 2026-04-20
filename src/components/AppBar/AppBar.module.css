@@ -1,0 +1,29 @@
+.appbar {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 var(--spacing-4);
+  background: var(--color-surface-base);
+  box-shadow: var(--elevation-1);
+  gap: var(--spacing-3);
+}
+
+.elevated { box-shadow: var(--elevation-2); }
+
+.title {
+  flex: 1;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+.leading,
+.trailing {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+
+.trailing { gap: var(--spacing-2); }

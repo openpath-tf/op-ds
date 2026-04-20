@@ -1,0 +1,27 @@
+.tabbar {
+  display: flex;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.tab {
+  flex: 1;
+  height: 48px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 400;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: -1px;
+}
+
+.tab:hover { color: var(--color-brand-primary); }
+
+.active {
+  border-bottom-color: var(--color-brand-primary);
+  color: var(--color-brand-primary);
+  font-weight: 600;
+}

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { alias, component, typography, spacing, shape } from '../../tokens';
+import styles from './Input.module.css';
 
 export default function Input({
   label,
@@ -11,23 +10,10 @@ export default function Input({
   disabled = false,
   type = 'text',
 }) {
-  const [focused, setFocused] = useState(false);
-
-  const borderColor = error
-    ? component.input.errorBorder
-    : focused
-    ? component.input.focusBorder
-    : component.input.border;
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[1], width: '100%' }}>
+    <div className={styles.wrapper}>
       {label && (
-        <label style={{
-          fontSize: typography.scale.label.size,
-          fontWeight: typography.scale.label.weight,
-          color: disabled ? alias.text.disabled : alias.text.secondary,
-          fontFamily: typography.fontFamily.sans,
-        }}>
+        <label className={`${styles.label} ${disabled ? styles.disabled : ''}`}>
           {label}
         </label>
       )}
@@ -37,33 +23,10 @@ export default function Input({
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          height: '44px',
-          padding: `0 ${spacing[4]}`,
-          fontSize: typography.scale.body1.size,
-          fontFamily: typography.fontFamily.sans,
-          color: alias.text.primary,
-          background: disabled ? component.input.disabledBg : alias.surface.base,
-          border: `1.5px solid ${borderColor}`,
-          borderRadius: shape.sm,
-          outline: 'none',
-          cursor: disabled ? 'not-allowed' : 'text',
-          transition: 'border-color 0.15s',
-          width: '100%',
-          boxSizing: 'border-box',
-        }}
+        className={`${styles.input} ${error ? styles.error : ''}`}
       />
-      {(helperText || error) && (
-        <span style={{
-          fontSize: typography.scale.caption.size,
-          color: error ? component.input.errorBorder : alias.text.secondary,
-          fontFamily: typography.fontFamily.sans,
-        }}>
-          {error || helperText}
-        </span>
-      )}
+      {error && <span className={styles.errorMsg}>{error}</span>}
+      {!error && helperText && <span className={styles.helper}>{helperText}</span>}
     </div>
   );
 }

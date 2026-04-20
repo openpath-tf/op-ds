@@ -1,10 +1,10 @@
 import { List, ListItem } from '../../components/List';
-import { alias, spacing, typography } from '../../tokens';
+import s from '../showcase.module.css';
 
 function Row({ label, children }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3], paddingBottom: spacing[6], borderBottom: `1px solid ${alias.border.default}` }}>
-      <span style={{ fontSize: typography.scale.overline.size, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: alias.text.secondary, fontFamily: typography.fontFamily.sans }}>{label}</span>
+    <div className={s.row}>
+      <span className={s.rowLabel}>{label}</span>
       {children}
     </div>
   );
@@ -12,7 +12,7 @@ function Row({ label, children }) {
 
 export default function ListPage() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[6] }}>
+    <div className={s.page}>
       <Row label="Basic">
         <List style={{ maxWidth: 360 }}>
           <ListItem title="항목 1" />
