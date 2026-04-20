@@ -1,0 +1,15 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Pretendard', 'Inter', -apple-system, sans-serif;
+  background-color: #F8F9FA;
+  color: #212529;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; }
+input  { font-family: inherit; }
