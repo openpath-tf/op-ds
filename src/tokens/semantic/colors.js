@@ -33,18 +33,4 @@ export const alias = {
   },
 };
 
-// Tier 3: Component — alias를 다시 참조
-export const component = {
-  button: {
-    primaryBg:      alias.brand.primary,
-    primaryHover:   alias.brand.hover,
-    primaryPressed: alias.brand.pressed,
-    secondaryBorder: alias.brand.primary,
-  },
-  input: {
-    border:      alias.border.default,
-    focusBorder: alias.border.focus,
-    errorBorder: alias.border.error,
-    disabledBg:  primitive.neutral[100],
-  },
-};
+// Tier 3 colors only — full component tokens (color+shape+spacing+elevation) are in ./component.js

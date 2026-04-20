@@ -18,7 +18,7 @@ Tier 1 (Primitive)  →  Tier 2 (Alias)  →  Tier 3 (Component)
 
 ### Tier 1 — Primitive (`src/tokens/primitives/`)
 
-원시 값의 집합입니다. HEX 색상, px 수치, 폰트 크기 등 **"무엇인가"**를 정의합니다.
+원시 값의 집합입니다. HEX 색상, px 수치, 폰트 크기 등 "무엇인가"를 정의합니다.
 
 ```js
 primitive.mint[400]   // #28D7D2
@@ -30,7 +30,7 @@ spacing[4]            // 16px
 
 ### Tier 2 — Alias (`src/tokens/semantic/`)
 
-의미 기반 참조입니다. **"어디에 쓰이는가"**를 정의합니다. Primitive를 가리키는 포인터 역할을 합니다.
+의미 기반 참조입니다. "어디에 쓰이는가"를 정의합니다. Primitive를 가리키는 포인터 역할을 합니다.
 
 ```js
 alias.brand.primary   // 주요 CTA, 브랜드 강조
