@@ -39,7 +39,7 @@ alias.surface.base    // 카드·패널 배경
 alias.border.focus    // 포커스 링
 ```
 
-### Tier 3 — Component (`src/tokens/semantic/colors.js`)
+### Tier 3 — Component (`src/tokens/semantic/component.js`)
 
 컴포넌트 전용 토큰입니다. Alias를 다시 참조하며, 컴포넌트 로직에서는 이 계층만 사용합니다.
 
@@ -54,25 +54,41 @@ component.input.focusBorder    // → alias.border.focus
 
 ## LLMs.txt — Semantic 명세 캐싱
 
-`LLMs.txt`는 AI가 이 디자인 시스템을 이해하기 위한 단일 진입점입니다.
+AI 맥락을 위한 문서를 두 계층으로 분리합니다.
+
+| 파일 | 역할 |
+|---|---|
+| `LLMs.txt` | 경량 인덱스 — 토큰 구조 요약, 컴포넌트 목록, 핵심 규칙 |
+| `llms-full.txt` | 전체 스펙 — 토큰 테이블, Props 명세, 사용 예시, 금지 패턴 |
 
 **핵심 원칙: Primitive 값은 담지 않는다.**
 
-HEX 코드나 px 수치가 AI context에 들어오면 토큰 비용만 낭비됩니다. LLMs.txt에는 값 대신 **의미와 규칙**만 담습니다.
+HEX 코드나 px 수치가 AI context에 들어오면 토큰 비용만 낭비됩니다. 값 대신 **의미와 규칙**만 담습니다.
 
 ```
 alias.brand.primary → 주요 CTA, 브랜드 강조 (hover 상태에는 쓰지 않음)
 alias.text.inverse  → 어두운 배경 위 텍스트 (밝은 배경에 쓰지 말 것)
 ```
 
-컴포넌트별로는 다음을 정의합니다.
+`llms-full.txt`는 컴포넌트별로 다음을 정의합니다.
 
 - **Props 명세** — 타입, 기본값, 유효한 값
 - **When to use** — 각 variant를 써야 하는 맥락
 - **When NOT to use** — 금지 패턴 (이게 없으면 AI는 항상 가장 눈에 띄는 선택만 함)
 - **JSX 예시** — 실제 동작하는 코드 스니펫
 
-AI가 `LLMs.txt`를 한 번 읽으면 이후 컴포넌트 생성·감사·페이지 구성에서 Primitive를 다시 참조할 필요가 없습니다. **반복 context 비용을 줄이는 캐싱 레이어**입니다.
+LLM이 빠른 탐색은 `LLMs.txt`로, 상세 스펙이 필요할 때는 `llms-full.txt`로 단계적으로 접근합니다. **반복 context 비용을 줄이는 캐싱 레이어**입니다.
+
+### 컴포넌트 메타데이터
+
+각 컴포넌트 `index.js`에 `meta` export가 구조화된 형태로 포함되어 있습니다.
+
+```js
+import { meta } from 'components/Button';
+// { name, description, variants, props, when, whenNot }
+```
+
+MCP 서버나 에이전트가 컴포넌트를 선택하거나 생성할 때 텍스트 파싱 없이 직접 참조할 수 있습니다.
 
 ---
 
@@ -115,7 +131,7 @@ npm run dev
 ## 스택
 
 - React + Vite
-- Inline styles (토큰 기반, CSS 프레임워크 의존 없음)
+- CSS Modules + CSS custom properties (토큰 기반, CSS 프레임워크 의존 없음)
 - ESLint
 
 ---
