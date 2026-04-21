@@ -1,498 +1,62 @@
-# OpenPath Design System — Semantic Specification
-> Version: 0.2 | For AI context use only. Raw values (hex, px) are intentionally omitted.
+# OpenPath Design System — Index
+> Version: 0.2 | For full specification see llms-full.txt
 
 ---
 
-## Token Architecture
+## What is this?
 
-Tokens follow a 3-tier hierarchy. Components MUST only reference Tier 2 (alias) or Tier 3 (component) tokens.
-Import path: `../../tokens` (never from `tokens/primitives` inside components).
+OpenPath DS is a React component library built on a 3-tier token architecture.
+Use `llms-full.txt` when you need raw prop tables, token rules, or usage examples.
+Use this file to orient yourself before diving in.
+
+---
+
+## Token Architecture (summary)
 
 ```
-Tier 1 (Primitive)  →  Tier 2 (Alias)  →  Tier 3 (Component)
-  raw values              semantic roles       component-specific
-  AI context excluded     ← use these          ← or these
+Tier 1 Primitive  →  Tier 2 Alias  →  Tier 3 Component
+  raw values           semantic roles    component-specific
+  (excluded from AI)   ← use these       ← or these
 ```
 
----
+Import path from any component: `../../tokens`
+Never import from `tokens/primitives` directly inside components.
 
-## Alias Tokens
-
-### brand
-| Token | Role | When NOT to use |
-|---|---|---|
-| `alias.brand.primary` | Primary CTA, active states, key brand moments | Decorative elements, icons that aren't interactive |
-| `alias.brand.hover` | Hover state for primary interactive elements | Static text or non-interactive surfaces |
-| `alias.brand.pressed` | Pressed/active state | Default/resting states |
-| `alias.brand.light` | Tinted backgrounds, selected state fills | Primary text — contrast is insufficient |
-
-### text
-| Token | Role | When NOT to use |
-|---|---|---|
-| `alias.text.primary` | Main body copy, headings | Placeholder or helper text |
-| `alias.text.secondary` | Supporting text, labels, metadata | Headings or primary content |
-| `alias.text.disabled` | Placeholder, inactive elements | Active/enabled elements |
-| `alias.text.inverse` | Text on dark or brand-colored surfaces | Light backgrounds |
-
-### surface
-| Token | Role | When NOT to use |
-|---|---|---|
-| `alias.surface.base` | Card/panel/modal backgrounds | Page-level backgrounds |
-| `alias.surface.subtle` | Page background, section dividers | Cards or panels that need to stand out |
-| `alias.surface.inverse` | Snackbar, Tooltip backgrounds | Large content areas |
-| `alias.surface.overlay` | Modal/drawer backdrop | Anything other than overlays |
-
-### border
-| Token | Role |
-|---|---|
-| `alias.border.default` | Default input, card, divider strokes |
-| `alias.border.focus` | Focused input ring |
-| `alias.border.error` | Error state ring |
-
-### feedback
-| Token | Role | When NOT to use |
-|---|---|---|
-| `alias.feedback.success` | Positive outcomes, completion | Neutral informational states |
-| `alias.feedback.warning` | Caution, irreversible actions | Errors that need immediate correction |
-| `alias.feedback.error` | Destructive actions, validation failures | Warnings or soft cautions |
-| `alias.feedback.info` | Informational, neutral system messages | Feedback tied to user action outcome |
+Token groups: `alias.brand` `alias.text` `alias.surface` `alias.border` `alias.feedback`
+Spacing: 4px grid — `spacing[1]`=4px … `spacing[10]`=40px (no arbitrary px)
+Shape: `shape.xs` → `shape.full` (badges → pill buttons)
+Elevation: `elevation[0–5]` (flat → urgent overlays)
 
 ---
 
-## Component Token Rules
+## Component Index
 
-Styling for each component maps to CSS custom properties via `variables.css`. The JS token references below reflect the semantic intent; in CSS Modules use the corresponding `--var-name` from `variables.css`.
-
-### Button
-- Background (filled): `component.button.primaryBg` → `--btn-primary-bg`
-- Hover: `component.button.primaryHover` → `--btn-primary-hover`
-- Pressed: `component.button.primaryPressed` → `--btn-primary-pressed`
-- Outlined border: `component.button.secondaryBorder` → `--color-brand-primary`
-- Elevation: none (buttons are flat)
-
-### Input
-- Default border: `component.input.border` → `--input-border`
-- Focus ring: `component.input.focusBorder` → `--input-focus-border`
-- Error ring: `component.input.errorBorder` → `--input-error-border`
-- Disabled background: `component.input.disabledBg` → `--input-disabled-bg`
-- Elevation: none
-
-### Modal
-- Background: `alias.surface.base` → `--color-surface-base`
-- Backdrop: `alias.surface.overlay` → `--color-surface-overlay`
-- Elevation: `elevation[4]` → `--elevation-4`
-- Border-radius: `shape.xl` → `--shape-xl`
-
-### Card
-- elevated: `alias.surface.base` + `elevation[2]` → `--elevation-2`
-- outlined: `alias.surface.base` + `alias.border.default` (1px border)
-- filled: `alias.surface.subtle`, no shadow
-- Border-radius: `shape.lg` → `--shape-lg`
-
-### AppBar
-- Background: `alias.surface.base`
-- Default shadow: `elevation[1]` → `--elevation-1`
-- Elevated shadow: `elevation[2]` → `--elevation-2`
-- Height: fixed 56px
-
-### TabBar
-- Active indicator: `alias.brand.primary` (2px bottom border)
-- Active text: `alias.brand.primary`, weight 600
-- Inactive text: `alias.text.secondary`, weight 400
-- Elevation: none (sits on surface)
-
-### FAB
-- Background: `alias.brand.primary`
-- Hover: `alias.brand.hover`
-- Elevation: `elevation[3]` → `--elevation-3` (resting), `elevation[4]` on hover
-- sm → `shape.md`, md → `shape.lg`, lg → `shape.xl`, extended → `shape.full`
-
-### Snackbar
-- default: `alias.surface.inverse` background
-- success/error/info: corresponding `alias.feedback.*`
-- Text: `alias.text.inverse`
-- Elevation: `elevation[3]` → `--elevation-3`
-- Border-radius: `shape.md` → `--shape-md`
-
-### List / ListItem
-- Container: `alias.surface.base`, `alias.border.default` (1px border), `shape.md`
-- Divider: `alias.border.default` (1px bottom border on each item)
-- Hover (clickable): `alias.surface.subtle`
-- Elevation: none
+| Component | Import | One-line description |
+|-----------|--------|----------------------|
+| `Button` | `components/Button` | Primary action trigger — 4 variants, 3 sizes |
+| `Input` | `components/Input` | Text field with label, helper, error states |
+| `Modal` | `components/Modal` | Blocking dialog for confirmable/destructive actions |
+| `Chips` | `components/Chips` | Filter tag — toggleable, optionally removable |
+| `Card` | `components/Card` | Content surface — elevated / outlined / filled |
+| `AppBar` | `components/AppBar` | Top navigation bar, 56px fixed height |
+| `TabBar` | `components/Tab` | Horizontal tab navigation, 2–5 items |
+| `FAB` | `components/FAB` | Floating action button — sm / md / lg / extended |
+| `Snackbar` | `components/Snackbar` | Transient feedback toast — auto-dismiss or persistent |
+| `List` + `ListItem` | `components/List` | Structured list container with leading/trailing slots |
 
 ---
 
-## Typography Scale
+## Key Rules
 
-Use `typography.scale.<name>` — each entry has `.size`, `.weight`, `.lineHeight`.
-`overline` also has `.letterSpacing` and `.textTransform: 'uppercase'` — apply both when using it.
-
-| Name | Use case | When NOT to use |
-|---|---|---|
-| `display1`, `display2` | Hero / landing headlines | Body content, cards |
-| `heading1` | Page-level titles | Sub-sections inside cards |
-| `heading2` | Section titles | Single-line labels |
-| `heading3` | Card titles, drawer headers | Page titles |
-| `body1` | Primary reading content | Labels, captions |
-| `body2` | Secondary content, descriptions | Headings |
-| `label` | Button text, form labels, tab items | Long-form reading content |
-| `caption` | Helper text, timestamps, metadata | Primary content |
-| `overline` | Section headers above lists — apply `textTransform: uppercase` and `letterSpacing` | Paragraph text |
-
-Font family: `typography.fontFamily.sans` (all UI), `typography.fontFamily.mono` (code, token values only)
+- One `filled` Button per context — never two side by side
+- `Input` must always have a `label` (accessibility)
+- `duration={null}` on Snackbar requires an `action` prop
+- `divider={false}` on the last `ListItem` (avoids double border)
+- Never nest `elevated` Cards
+- One FAB per screen maximum
 
 ---
 
-## Spacing Scale
+## Full Reference
 
-`spacing[n]` — 4px base grid. Returns a CSS string (e.g. `spacing[4]` = `'16px'`).
-
-| Key | Value | Common use |
-|---|---|---|
-| `spacing[1]` | 4px | Icon-to-label gap, tight padding |
-| `spacing[2]` | 8px | Chip/badge padding, tight gaps |
-| `spacing[3]` | 12px | Small component inner padding |
-| `spacing[4]` | 16px | Default padding, form field gaps |
-| `spacing[5]` | 20px | Medium padding, compact card sections |
-| `spacing[6]` | 24px | Card padding, comfortable gaps |
-| `spacing[8]` | 32px | Section separation |
-| `spacing[10]` | 40px | Page-level vertical rhythm |
-
-Do not use arbitrary px values. All spacing must reference `spacing[n]`.
-
----
-
-## Shape Scale
-
-`shape.<name>` — border-radius steps.
-
-| Name | Value | Use |
-|---|---|---|
-| `shape.none` | 0px | Dividers, full-bleed elements |
-| `shape.xs` | 4px | Badges, tooltips |
-| `shape.sm` | 8px | Inputs, small cards |
-| `shape.md` | 12px | Modals, menus, Snackbar |
-| `shape.lg` | 16px | Cards, drawers, FAB (md) |
-| `shape.xl` | 28px | Bottom sheets, large modals, FAB (lg) |
-| `shape.full` | 9999px | Buttons (pill), Chips, FAB (extended) |
-
----
-
-## Elevation Scale
-
-`elevation[0–5]` — box-shadow depth. Use the lowest level that achieves necessary separation.
-
-| Level | Component mapping |
-|---|---|
-| `elevation[0]` | Flat surfaces — no separation needed |
-| `elevation[1]` | AppBar (default) |
-| `elevation[2]` | Card (elevated variant), AppBar (elevated prop) |
-| `elevation[3]` | Snackbar, FAB (resting) |
-| `elevation[4]` | Modal, Drawer, FAB (hover) |
-| `elevation[5]` | Reserved for urgent overlays |
-
----
-
-## Components
-
----
-
-### Button
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `variant` | string | `'filled'` | `'filled'` `'outlined'` `'tonal'` `'ghost'` |
-| `size` | string | `'md'` | `'sm'` `'md'` `'lg'` |
-| `disabled` | boolean | `false` | — |
-| `fullWidth` | boolean | `false` | — |
-| `leftIcon` | ReactNode | — | Any inline element |
-| `rightIcon` | ReactNode | — | Any inline element |
-| `onClick` | function | — | — |
-
-**When to use each variant**
-- `filled` — The single primary action on a screen (submit, confirm, proceed)
-- `outlined` — Secondary action alongside a filled button (cancel, back)
-- `tonal` — Soft emphasis without full brand weight (filter toggles, secondary CTAs)
-- `ghost` — Inline or tertiary action where visual weight would clutter (edit, delete link)
-
-**When NOT to use**
-- Do not place two `filled` buttons side by side — only one primary action per context
-- Do not use `ghost` as the sole action — it lacks enough affordance when used alone
-- Do not use `size="lg"` inside compact UI like cards or list rows
-
-**Examples**
-```jsx
-<Button variant="filled" onClick={handleSubmit}>저장하기</Button>
-<Button variant="outlined" onClick={handleCancel}>취소</Button>
-<Button variant="filled" leftIcon="＋">항목 추가</Button>
-<Button variant="filled" fullWidth>로그인</Button>
-```
-
----
-
-### Input
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `label` | string | — | — |
-| `placeholder` | string | — | — |
-| `value` | string | — | — |
-| `onChange` | function | — | — |
-| `helperText` | string | — | Guidance shown below input |
-| `error` | string | — | Replaces helperText when set |
-| `disabled` | boolean | `false` | — |
-| `type` | string | `'text'` | Any valid HTML input type |
-
-**When NOT to use**
-- Do not omit `label` — always provide one for accessibility
-- Do not pass both `helperText` and `error` — `error` takes visual priority and `helperText` is hidden
-- Do not use for multi-line text — use a `textarea` instead
-
-**Examples**
-```jsx
-<Input label="이름" placeholder="홍길동" value={name} onChange={e => setName(e.target.value)} />
-<Input label="이메일" error="올바른 이메일 형식이 아닙니다" value={email} onChange={e => setEmail(e.target.value)} />
-<Input label="비밀번호" type="password" helperText="8자 이상, 특수문자 포함" />
-```
-
----
-
-### Modal
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `open` | boolean | — | — |
-| `title` | string | — | — |
-| `description` | string | — | — |
-| `onConfirm` | function | — | — |
-| `onCancel` | function | — | — |
-| `confirmLabel` | string | `'확인'` | — |
-| `cancelLabel` | string | `'취소'` | — |
-
-**When NOT to use**
-- Do not use for non-critical notifications — use Snackbar instead
-- Do not nest Modals
-- Do not omit `onCancel` — users must always have an escape path
-
-**Examples**
-```jsx
-<Modal
-  open={isOpen}
-  title="정말 삭제하시겠어요?"
-  description="이 작업은 되돌릴 수 없습니다."
-  confirmLabel="삭제"
-  cancelLabel="취소"
-  onConfirm={handleDelete}
-  onCancel={() => setIsOpen(false)}
-/>
-```
-
----
-
-### Chips
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `label` | string | — | — |
-| `selected` | boolean | `false` | — |
-| `onClick` | function | — | Filter/toggle handler |
-| `onClose` | function | — | Makes chip removable |
-| `disabled` | boolean | `false` | — |
-
-**When NOT to use**
-- Do not use chips as primary navigation — use TabBar instead
-- Do not use `onClose` and `onClick` for conflicting actions on the same chip
-
-**Examples**
-```jsx
-<Chips label="React" selected={selected} onClick={() => toggle('React')} />
-<Chips label="디자인시스템" selected onClose={() => removeTag('디자인시스템')} />
-```
-
----
-
-### Card
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `variant` | string | `'elevated'` | `'elevated'` `'outlined'` `'filled'` |
-| `padding` | string | `'24px'` | Any CSS string — use `spacing[n]` values (e.g. `spacing[4]` = `'16px'`) |
-| `style` | object | — | Additional inline styles |
-
-**When to use each variant**
-- `elevated` — Standalone content cards (`elevation[2]` shadow)
-- `outlined` — Form sections, grouped inputs, structured data panels (1px border, no shadow)
-- `filled` — Subtle background grouping, secondary content blocks (no border, no shadow)
-
-**When NOT to use**
-- Do not nest `elevated` cards — use `outlined` or `filled` for inner groupings
-- Do not use Card as a button wrapper — use a button with appropriate styling
-
-**Examples**
-```jsx
-<Card variant="elevated">
-  <h3>제목</h3>
-  <p>내용</p>
-  <Button size="sm" variant="outlined">자세히</Button>
-</Card>
-
-// compact form section
-<Card variant="outlined" padding={spacing[5]}>
-  <Input label="이름" />
-  <Input label="이메일" />
-</Card>
-```
-
----
-
-### AppBar
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `title` | string | — | — |
-| `leading` | ReactNode | — | Back icon, menu icon, or any element |
-| `trailing` | ReactNode | — | Icon buttons, action group |
-| `elevated` | boolean | `false` | Switches from `elevation[1]` to `elevation[2]` |
-
-**When NOT to use**
-- Do not put more than 2–3 trailing actions — use a menu overflow instead
-- Do not use as a section header inside a page — use `heading2`/`heading3` typography
-
-**Examples**
-```jsx
-// String shorthand (acceptable for prototyping)
-<AppBar title="설정" leading="←" trailing={<>⋮</>} />
-
-// ReactNode (recommended for production)
-<AppBar title="홈" leading={<BackButton />} trailing={<IconButton icon="search" />} elevated />
-```
-
----
-
-### TabBar
-
-**Import:** `import { TabBar } from '../../components/Tab'`
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `items` | string[] | — | 2–5 items |
-| `activeIndex` | number | — | — |
-| `onChange` | function | — | — |
-
-**When NOT to use**
-- Do not use more than 5 tabs — consider a dropdown or navigation drawer
-- Do not use for sequential steps — use a stepper pattern instead
-
-**Examples**
-```jsx
-const [tab, setTab] = useState(0);
-<TabBar items={['홈', '탐색', '활동', '프로필']} activeIndex={tab} onChange={setTab} />
-```
-
----
-
-### FAB
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `icon` | ReactNode | — | — |
-| `label` | string | — | Required when `size="extended"` |
-| `size` | string | `'md'` | `'sm'` `'md'` `'lg'` `'extended'` |
-| `onClick` | function | — | — |
-
-**When NOT to use**
-- Do not use more than one FAB per screen
-- Do not use FAB for destructive actions
-- Do not use `sm` FAB as the primary action — touch target is too small
-
-**Examples**
-```jsx
-<FAB icon="＋" size="md" onClick={handleCreate} />
-<FAB icon="✏" label="작성하기" size="extended" onClick={handleWrite} />
-```
-
----
-
-### Snackbar
-
-**Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `open` | boolean | — | — |
-| `message` | string | — | — |
-| `type` | string | `'default'` | `'default'` `'success'` `'error'` `'info'` |
-| `action` | `{ label: string, onClick: function }` | — | Single optional action |
-| `onClose` | function | — | Called on auto-dismiss or action |
-| `duration` | number \| null | `3000` | ms — pass `null` to disable auto-close |
-
-**`duration: null` behaviour:** auto-close timer is disabled. The snackbar stays open until `onClose` is triggered externally (e.g. via `action.onClick`). When using `duration={null}`, always provide an `action` — otherwise the user has no way to dismiss it.
-
-**When NOT to use**
-- Do not stack multiple Snackbars — show one at a time
-- Do not use for critical errors requiring user action — use Modal instead
-- Do not use for content that takes more than ~5 seconds to read
-
-**Examples**
-```jsx
-// Auto-dismiss
-<Snackbar open={saved} message="저장되었습니다" type="success" onClose={() => setSaved(false)} />
-
-// Persistent with undo
-<Snackbar
-  open={deleted}
-  message="항목이 삭제되었습니다"
-  duration={null}
-  action={{ label: '실행 취소', onClick: handleUndo }}
-  onClose={() => setDeleted(false)}
-/>
-```
-
----
-
-### List / ListItem
-
-**List Props**
-| Prop | Type | Default |
-|---|---|---|
-| `children` | ReactNode | — |
-| `style` | object | — |
-
-**ListItem Props**
-| Prop | Type | Default | Valid values |
-|---|---|---|---|
-| `title` | string | — | — |
-| `subtitle` | string | — | — |
-| `leading` | ReactNode | — | Icon, avatar |
-| `trailing` | ReactNode | — | Icon, badge, metadata |
-| `onClick` | function | — | Makes item interactive (adds hover state) |
-| `divider` | boolean | `true` | Set `false` on the last item |
-
-**When NOT to use**
-- Do not use List for fewer than 2 items
-- Do not put complex interactive controls (inputs, buttons) inside ListItem
-- Always set `divider={false}` on the last ListItem to avoid a double border
-
-**Examples**
-```jsx
-<List>
-  <ListItem leading="◈" title="프로필" subtitle="계정 정보 관리" trailing="›" onClick={goToProfile} />
-  <ListItem leading="🔔" title="알림" trailing="›" onClick={goToNotifs} />
-  <ListItem leading="⚙" title="설정" trailing="›" onClick={goToSettings} divider={false} />
-</List>
-```
-
----
-
-## Design Principles
-
-**Clarity** — Minimize cognitive load. Predictable patterns, clear hierarchy.
-**Scalability** — Token-based: brand/theme changes propagate without touching components.
-**Autonomy** — Each component is self-contained. No external state required to render.
+→ `llms-full.txt` — complete token tables, all props, do/don't examples, design principles
