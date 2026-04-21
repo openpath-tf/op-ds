@@ -39,7 +39,7 @@ alias.surface.base    // 카드·패널 배경
 alias.border.focus    // 포커스 링
 ```
 
-### Tier 3 — Component (`src/tokens/semantic/component.js`)
+### Tier 3 — Component (`src/tokens/semantic/`)
 
 컴포넌트 전용 토큰입니다. Alias를 다시 참조하며, 컴포넌트 로직에서는 이 계층만 사용합니다.
 
